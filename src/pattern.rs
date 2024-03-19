@@ -1,6 +1,6 @@
 use rand::{seq::IteratorRandom, Rng};
 
-use crate::parser::parse_pattern;
+use crate::parser::pattern;
 
 /// A string pattern.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -11,8 +11,11 @@ pub enum Pattern {
     Group(Box<Pattern>),
     /// A quantification of a pattern.
     Quantification {
+        /// The quantified pattern.
         pattern: Box<Pattern>,
+        /// The minimum number of occurrences.
         min: u64,
+        /// The maximum number of occurrences.
         max: u64,
     },
     /// A sequence of patterns.
@@ -31,7 +34,7 @@ impl Pattern {
     /// Parses a pattern.
     pub fn parse(input: &str)
     -> Result<Pattern, nom::Err<nom::error::Error<&str>>> {
-        Ok(parse_pattern(input)?.1)
+        Ok(pattern(input)?.1)
     }
 
     /// Generates a string matching this pattern.
