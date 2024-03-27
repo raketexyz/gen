@@ -143,6 +143,15 @@ mod test {
     use super::*;
 
     #[test]
+    fn parse_atom() {
+        assert_eq!(atom("a|b|c"), Ok(("", Pattern::Or(
+            Pattern::Literal('a').into(),
+            Pattern::Or(Pattern::Literal('b').into(),
+                        Pattern::Literal('c').into()).into()
+        ))));
+    }
+
+    #[test]
     fn parse_literal() {
         assert_eq!(literal("a"), Ok(("", Pattern::Literal('a'))));
         assert_eq!(literal("\\n"), Ok(("", Pattern::Literal('\n'))));
