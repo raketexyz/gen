@@ -17,7 +17,7 @@ struct Cli {
 fn main() {
     let cli = Cli::parse();
     let string = match Pattern::parse(&cli.pattern) {
-        Ok(pattern) => pattern.generate(&mut thread_rng()),
+        Ok(pattern) => dbg!(pattern).generate(&mut thread_rng()),
         Err(e) => {
             eprintln!("Couldn't parse pattern: {e}");
             exit(-1)
