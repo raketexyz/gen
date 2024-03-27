@@ -1,3 +1,4 @@
+use nom::{error::VerboseError, Err};
 use rand::{seq::{IteratorRandom, SliceRandom}, Rng};
 
 use crate::parser::pattern;
@@ -32,8 +33,7 @@ pub enum Pattern {
 
 impl Pattern {
     /// Parses a pattern.
-    pub fn parse(input: &str)
-    -> Result<Pattern, nom::Err<nom::error::Error<&str>>> {
+    pub fn parse(input: &str) -> Result<Pattern, Err<VerboseError<&str>>> {
         Ok(pattern(input)?.1)
     }
 
