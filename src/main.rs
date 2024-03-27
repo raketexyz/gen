@@ -1,3 +1,5 @@
+use std::process::exit;
+
 use clap::Parser;
 use gen::Pattern;
 use rand::thread_rng;
@@ -7,13 +9,23 @@ use rand::thread_rng;
 struct Cli {
     /// Pattern to generate
     pattern: String,
+    /// Don't output a trailing newline
+    #[clap(short)]
+    no_newline: bool,
 }
 
 fn main() {
     let cli = Cli::parse();
+    let string = match Pattern::parse(&cli.pattern) {
+        Ok(pattern) => pattern.generate(&mut thread_rng()),
+        Err(e) => {
+            eprintln!("Couldn't parse pattern: {e}");
+            exit(-1)
+        }
+    };
 
-    match Pattern::parse(&cli.pattern) {
-        Ok(pattern) => print!("{}", pattern.generate(&mut thread_rng())),
-        Err(err) => eprintln!("Couldn't parse pattern: {err}")
+    match cli.no_newline {
+        false => println!("{string}"),
+        true => print!("{string}")
     }
 }

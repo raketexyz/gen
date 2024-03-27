@@ -4,6 +4,8 @@
 //! For example, you can use gen to generate passwords in your terminal:
 //! `gen "[\w-]{20}"` returns a 20-character-long password containing
 //! digits, uppercase and lowercase letters, dashes and underscores.
+#![deny(missing_docs)]
+
 pub use self::pattern::*;
 
 pub(crate) mod parser;
